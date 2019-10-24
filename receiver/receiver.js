@@ -123,10 +123,9 @@ io.on('connection', function (socket) {
     socket.on('sendstreams', function (packet) {
         if (packet.security.key === configuration.key) {
             packet.streams.timestamp = Date.now();
-            packet.streams.ip = packet.ip;
             console.log(packet.streams);
             streams.pushIfNotExist(packet.streams, function (e) {
-                return e.name === packet.streams.name; //check if the server already exists in the array!
+                return e.streams.name === packet.streams.streams.name; //check if the server already exists in the array!
             });
             socket.emit('streamsUpdated', {updated: 'OK'});
         } else {
@@ -155,7 +154,7 @@ router.get('/stream/:id', function (req, res, next) {
             obj[k].streams.map(function(l,i){
                 if(l.name == req.params.id) {
                     status = 200;
-                    serverName = l.ip;
+                    serverName = obj[k].ip;
                 }
             })
         }
