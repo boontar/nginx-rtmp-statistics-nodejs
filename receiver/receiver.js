@@ -125,7 +125,7 @@ io.on('connection', function (socket) {
             packet.streams.timestamp = Date.now();
             console.log(packet.streams);
             streams.pushIfNotExist(packet.streams, function (e) {
-                return e.ip === packet.edge.ip; 
+                return e.ip === packet.streams.ip; 
             });
             socket.emit('streamsUpdated', {updated: 'OK'});
         } else {
