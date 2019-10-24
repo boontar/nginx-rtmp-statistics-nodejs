@@ -10,7 +10,7 @@ var configuration = JSON.parse(
 
 var http = require('http');
 var app = express();
-
+const bearerToken = require('express-bearer-token');
 var router = express.Router();
 
 var edge = [], streams = [];
@@ -53,7 +53,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(bearerToken());
 app.use('/', router);
 
 // catch 404 and forward to error handler
