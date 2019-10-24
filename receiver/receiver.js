@@ -148,9 +148,8 @@ router.get('/streams', function (req, res, next) {
 });
 
 router.get('/stream/:id', function (req, res, next) {
-    var text;
+    var text, obj = streams, serverName = 'undefined', info = [{"status": 404}];
     if(streams) {
-        var obj = streams, serverName = 'undefined', info = [];
         for (var k = 0; k < obj.length; k++) {    
             if(obj[k].streams) {
                 obj[k].streams.map(function(l,i){
@@ -167,11 +166,7 @@ router.get('/stream/:id', function (req, res, next) {
                 "stream": info,
                 "status": 200
             }];
-        } else {
-            text = [{"status": 404}];
         }
-    } else {
-        text = [{"status": 404}];
     }
     res.status(200).json(text);
 });
