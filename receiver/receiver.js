@@ -151,12 +151,14 @@ router.get('/stream/:id', function (req, res, next) {
     if(streams) {
         var obj = streams, status = 404, serverName = 'undefined';
         for (var k = 0; k < obj.length; k++) {    
-            obj[k].streams.map(function(l,i){
-                if(l.name == req.params.id) {
-                    status = 200;
-                    serverName = obj[k].ip;
-                }
-            })
+            if(obj[k].streams) {
+                obj[k].streams.map(function(l,i){
+                    if(l.name == req.params.id) {
+                        status = 200;
+                        serverName = obj[k].ip;
+                    }
+                })
+            }
         }
         res.status(200).json([{"ip": serverName, "status": status}]);
     } else {
