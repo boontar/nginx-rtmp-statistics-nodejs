@@ -3,7 +3,6 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var bearerToken = require('express-bearer-token');
 var fs = require("fs");
 var configuration = JSON.parse(
     fs.readFileSync("config.json")
@@ -54,10 +53,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use(bearerToken());
-app.use(function (req, res) {
-    res.send('Token '+req.token);
-});
 
 app.use('/', router);
 
@@ -140,9 +135,13 @@ io.on('connection', function (socket) {
 });
 
 //Define routes here
-
+function check_token (req, res) {
+    if(configuration.accessToken != req.token) {
+        res.status(200).json([{"status": "error"}]);
+    }
+}
 router.get('/streams', function (req, res, next) {
-
+    check_token(req, res);
     var obj = streams;
 
     for (var i = 0; i < obj.length; i++) {
@@ -158,6 +157,7 @@ router.get('/streams', function (req, res, next) {
 });
 
 router.get('/stream/:id', function (req, res, next) {
+    check_token(req, res);
     var text, status = "NOT_FOUND", obj = streams, serverName = 'undefined', info, last_update, timestamp;
     if(streams) {
         for (var k = 0; k < obj.length; k++) {    
@@ -192,7 +192,7 @@ router.get('/stream/:id', function (req, res, next) {
 });
 
 router.get('/servers', function (req, res, next) {
-
+    check_token(req, res);
     var obj = edge;
 
     for (var i = 0; i < obj.length; i++) {
@@ -209,7 +209,7 @@ router.get('/servers', function (req, res, next) {
 });
 
 router.get('/freeserver', function (req, res, next) {
-
+    check_token(req, res);
     var freeServer;
     var minimum = 0;
 
