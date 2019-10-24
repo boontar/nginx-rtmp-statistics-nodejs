@@ -54,11 +54,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bearerToken({
-    headerKey: 'Bearer',
-    reqKey: 'token',
-    cookie: false
-}));
+app.use(bearerToken());
 app.use(function (req, res) {
     res.send('Token '+req.token);
 });
