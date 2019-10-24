@@ -59,6 +59,9 @@ app.use(bearerToken({
     reqKey: 'token',
     cookie: false
 }));
+app.use(function (req, res) {
+    res.send('Token '+req.token);
+});
 
 app.use('/', router);
 
