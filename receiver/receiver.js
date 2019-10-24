@@ -173,7 +173,7 @@ router.get('/stream/:id', function (req, res, next) {
                 "status": "NOT_FOUND"
             }];
         }
-        if(status == "success") {
+        if(status == "FOUND") {
             text = [{
                 "ip": serverName,
                 "timestamp": timestamp,
