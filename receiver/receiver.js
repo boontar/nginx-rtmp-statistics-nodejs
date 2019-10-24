@@ -148,22 +148,32 @@ router.get('/streams', function (req, res, next) {
 });
 
 router.get('/stream/:id', function (req, res, next) {
+    var text;
     if(streams) {
-        var obj = streams, status = 404, serverName = 'undefined';
+        var obj = streams, serverName = 'undefined', info = [];
         for (var k = 0; k < obj.length; k++) {    
             if(obj[k].streams) {
                 obj[k].streams.map(function(l,i){
                     if(l.name == req.params.id) {
-                        status = 200;
+                        info = l;
                         serverName = obj[k].ip;
                     }
                 })
             }
         }
-        res.status(200).json([{"ip": serverName, "status": status}]);
+        if(info.length > 0) {
+            text = [{
+                "ip": serverName, 
+                "stream": info,
+                "status": 200
+            }];
+        } else {
+            text = [{"status": 404}];
+        }
     } else {
-        res.status(200).json([{"status": 404}]);
+        text = [{"status": 404}];
     }
+    res.status(200).json(text);
 });
 
 router.get('/servers', function (req, res, next) {
