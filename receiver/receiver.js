@@ -7,10 +7,10 @@ var fs = require("fs");
 var configuration = JSON.parse(
     fs.readFileSync("config.json")
 );
-
+const bearerToken = require('express-bearer-token');
 var http = require('http');
 var app = express();
-const bearerToken = require('express-bearer-token');
+
 var router = express.Router();
 
 var edge = [], streams = [];
@@ -137,9 +137,10 @@ io.on('connection', function (socket) {
 //Define routes here
 function check_token (req, res) {
     if(configuration.accessToken != req.token) {
-        res.status(200).json([{"status": "error"+ req.token}]);
+        res.status(200).json([{"status": "error"}]);
     }
 }
+
 router.get('/streams', function (req, res, next) {
     check_token(req, res);
     var obj = streams;
