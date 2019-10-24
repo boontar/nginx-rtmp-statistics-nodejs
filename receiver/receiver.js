@@ -137,7 +137,7 @@ io.on('connection', function (socket) {
 //Define routes here
 function check_token (req, res) {
     if(configuration.accessToken != req.token) {
-        res.status(200).json([{"status": "error"}]);
+        res.status(200).json([{"status": "error"+ req.token}]);
     }
 }
 router.get('/streams', function (req, res, next) {
