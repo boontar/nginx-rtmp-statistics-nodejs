@@ -27,7 +27,7 @@ Array.prototype.inArray = function (comparer, element) {
     return false;
 };
 
-Array.prototype.pushIfNotExist = function (element, comparer) {
+Array.prototype.pushIfNotExist = function (comparer, element) {
     if (!this.inArray(comparer, element)) {
         this.unshift(element);
     }
