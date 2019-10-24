@@ -17,7 +17,7 @@ var edge = [], streams = [];
 
 //Some logic made by me to handle the arrays
 
-Array.prototype.inArray = function (comparer, element) {
+Array.prototype.inArray = function (element, comparer) {
     for (var i = 0; i < this.length; i++) {
         if (comparer(this[i])) {
             this.splice(i, 1, element);
@@ -27,8 +27,8 @@ Array.prototype.inArray = function (comparer, element) {
     return false;
 };
 
-Array.prototype.pushIfNotExist = function (comparer, element) {
-    if (!this.inArray(comparer, element)) {
+Array.prototype.pushIfNotExist = function (element, comparer) {
+    if (!this.inArray(element, comparer)) {
         this.unshift(element);
     }
 };
