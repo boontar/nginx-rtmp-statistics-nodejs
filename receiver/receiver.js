@@ -3,6 +3,7 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var bearerToken = require('express-bearer-token');
 var fs = require("fs");
 var configuration = JSON.parse(
     fs.readFileSync("config.json")
@@ -53,6 +54,11 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bearerToken({
+    headerKey: 'Bearer',
+    reqKey: 'token',
+    cookie: false
+}));
 
 app.use('/', router);
 
