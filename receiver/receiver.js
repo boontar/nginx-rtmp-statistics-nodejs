@@ -124,7 +124,9 @@ io.on('connection', function (socket) {
         if (packet.security.key === configuration.key) {
             packet.streams.timestamp = Date.now();
             console.log(packet.streams);
-            streams.pushIfNotExist(packet.streams, function (e) {});
+            streams.pushIfNotExist(packet.streams, function (e) {
+                return e.ip === packet.edge.ip; 
+            });
             socket.emit('streamsUpdated', {updated: 'OK'});
         } else {
             socket.emit('streamsUpdated', {updated: 'FAIL -> Security Key Invalid'});
