@@ -148,15 +148,16 @@ router.get('/streams', function (req, res, next) {
 });
 
 router.get('/stream/:id', function (req, res, next) {
-    if(streams[0].streams) {
-        var obj = streams[0].streams, status = 404, serverName = 'undefined';
-
-        obj.map(function(l,i){
-            if(l.name == req.params.id) {
-                status = 200;
-                serverName = l.ip;
-            }
-        })
+    if(streams) {
+        var obj = streams, status = 404, serverName = 'undefined';
+        for (var i = 0; i < obj.length; i++) {    
+            obj[i].streams.map(function(l,i){
+                if(l.name == req.params.id) {
+                    status = 200;
+                    serverName = l.ip;
+                }
+            })
+        }
         res.status(200).json([{"ip": serverName, "status": status}]);
     } else {
         res.status(200).json([{"status": 404}]);
