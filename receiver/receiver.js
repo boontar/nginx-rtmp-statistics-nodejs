@@ -142,28 +142,42 @@ router.get('/streams', function (req, res, next) {
 
     for (var i = 0; i < obj.length; i++) {
         obj[i].last_update = new Date(obj[i].timestamp);
+        if(obj[i].streams) {
+            obj[i].status = "FOUND";
+        } else {
+            obj[i].status = "NOT_FOUND";
+        }
     }
 
     res.status(200).json(obj);
 });
 
 router.get('/stream/:id', function (req, res, next) {
-    var text = [{"status": "failed"}], status = "failed", obj = streams, serverName = 'undefined', info;
+    var text, status = "NOT_FOUND", obj = streams, serverName = 'undefined', info, last_update, timestamp;
     if(streams) {
         for (var k = 0; k < obj.length; k++) {    
             if(obj[k].streams) {
                 obj[k].streams.map(function(l,i){
                     if(l.name == req.params.id) {
                         info = l;
-                        status = "success";
+                        status = "FOUND";
                         serverName = obj[k].ip;
                     }
                 })
             }
+            timestamp = obj[k].timestamp;
+            last_update = new Date(obj[k].timestamp);
+            text = [{
+                "timestamp": timestamp,
+                "last_update": last_update,
+                "status": "NOT_FOUND"
+            }];
         }
         if(status == "success") {
             text = [{
-                "ip": serverName, 
+                "ip": serverName,
+                "timestamp": timestamp,
+                "last_update": last_update,
                 "stream": info,
                 "status": status
             }];
