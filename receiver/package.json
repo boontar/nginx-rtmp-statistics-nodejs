@@ -1,0 +1,20 @@
+{
+  "name": "nginx-rtmp-statistics-nodejs-receiver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "receiver.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "~1.12.4",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "~4.12.4",
+    "jade": "~1.9.2",
+    "morgan": "~1.5.3",
+    "socket.io": "^1.3.5"
+  },
+  "author": "boontar",
+  "license": "ISC"
+}
